@@ -13,12 +13,11 @@ jobs:
 
       - name: Build
         run: |
-          # Установка путей
           export ANDROID_NDK=$ANDROID_NDK_HOME
           export API=28
           export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
           
-          # 1. Сборка Raylib (Явно указываем API 28)
+          # 1. Сборка Raylib
           git clone --depth 1 https://github.com/raysan5/raylib.git
           cd raylib/src
           make PLATFORM=PLATFORM_ANDROID \
@@ -30,12 +29,23 @@ jobs:
                -j$(nproc)
           cd ../..
 
-          # 2. Создание CMakeLists.txt
+          # 2. Создание CMakeLists.txt с фиксом линкера
           echo 'cmake_minimum_required(VERSION 3.10)
           project(CubicGame CXX)
           set(CMAKE_CXX_STANDARD 11)
+          
           add_library(native-lib SHARED main.cpp)
+          
           target_include_directories(native-lib PRIVATE raylib/src)
+          
+          # Флаги для исправления ошибки __real_fopen
+          target_link_options(native-lib PRIVATE 
+              "-Wl,--wrap=fopen" 
+              "-Wl,--wrap=fclose" 
+              "-Wl,--wrap=fseek" 
+              "-Wl,--wrap=ftell" 
+              "-Wl,--wrap=fread")
+
           target_link_libraries(native-lib 
               ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src/libraylib.a 
               android log EGL GLESv2 m)
@@ -50,7 +60,7 @@ jobs:
           <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
           </activity></application></manifest>' > AndroidManifest.xml
 
-          # 4. Сборка игры (API 28)
+          # 4. Сборка игры (явно указываем NDK)
           mkdir build && cd build
           cmake .. \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
