@@ -16,34 +16,35 @@ jobs:
           export ANDROID_NDK=$ANDROID_NDK_HOME
           export API=28
           
-          # 1. Скачиваем Raylib (только исходники)
+          # 1. Скачиваем Raylib
           git clone --depth 1 https://github.com/raysan5/raylib.git
           
           # 2. Создаем "Ультимативный" CMakeLists.txt
-          # Мы компилируем Raylib прямо внутри нашего проекта
+          # Используем GLOB для автоматического поиска всех .c файлов Raylib
           cat << 'EOF' > CMakeLists.txt
           cmake_minimum_required(VERSION 3.10)
           project(CubicGame CXX)
           set(CMAKE_CXX_STANDARD 11)
 
           set(RAY_SRC ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src)
-          set(GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
+          set(GLUE_DIR $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue)
 
           add_definitions(-DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -DSUPPORT_RESOURCES_RAW)
 
-          # Собираем всё вместе: Raylib + Glue + Твой код
+          # Автоматически находим все исходники Raylib в папке src
+          file(GLOB RAY_FILES "${RAY_SRC}/*.c")
+          
+          # Собираем: Твой код + Все файлы Raylib + Glue
           add_library(native-lib SHARED 
               main.cpp 
-              ${RAY_SRC}/rcore.c 
-              ${RAY_SRC}/rshapes.c 
-              ${RAY_SRC}/rtextures.c 
-              ${RAY_SRC}/rtext.c 
-              ${RAY_SRC}/rmodels.c 
-              ${RAY_SRC}/utils.c
-              ${RAY_SRC}/raudio.c
+              ${RAY_FILES}
               ${GLUE_DIR}/android_native_app_glue.c)
 
-          target_include_directories(native-lib PRIVATE ${RAY_SRC} ${RAY_SRC}/external ${GLUE_DIR})
+          target_include_directories(native-lib PRIVATE 
+              ${RAY_SRC} 
+              ${RAY_SRC}/external 
+              ${GLUE_DIR})
+              
           target_link_libraries(native-lib android log EGL GLESv2 m)
           EOF
 
@@ -57,7 +58,7 @@ jobs:
           </activity></application></manifest>
           EOF
 
-          # 4. Сборка
+          # 4. Сборка через CMake
           mkdir build && cd build
           cmake .. \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
