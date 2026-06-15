@@ -1,3 +1,4 @@
+#pragma once
 #include "raylib.h"
 #include "raymath.h"
 #include "config.hpp"
@@ -19,10 +20,8 @@ public:
     void Update() {
         int w = GetScreenWidth();
         int h = GetScreenHeight();
-
         for (int i = 0; i < GetTouchPointCount(); i++) {
             Vector2 t = GetTouchPosition(i);
-            
             if (t.x < w / 3) angle.x -= TOUCH_SPEED;
             else if (t.x > w * 2 / 3 && t.y > h / 2) velY = (grounded) ? JUMP_FORCE : velY;
             else if (t.x > w / 3 && t.x < w * 2 / 3 && t.y > h / 2) {
@@ -31,16 +30,13 @@ public:
             }
             if (t.x > w * 2 / 3 && t.y < h / 2) angle.x += TOUCH_SPEED;
         }
-
         velY -= GRAVITY;
         pos.y += velY;
-
         if (pos.y < 2.0f) {
             pos.y = 2.0f;
             velY = 0;
             grounded = true;
         } else grounded = false;
-
         camera.position = pos;
         camera.target = (Vector3){pos.x + cosf(angle.x), pos.y, pos.z + sinf(angle.x)};
     }
