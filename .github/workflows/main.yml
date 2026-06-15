@@ -13,26 +13,27 @@ jobs:
 
       - name: Build
         run: |
-          # Настройка путей к конкретному NDK r25c
+          # Установка путей
           export ANDROID_NDK=$ANDROID_NDK_HOME
+          export API=28
           export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
-          export CC=$TOOLCHAIN/bin/aarch64-linux-android24-clang
-          export AR=$TOOLCHAIN/bin/llvm-ar
           
-          # 1. Сборка Raylib
+          # 1. Сборка Raylib (Явно указываем API 28)
           git clone --depth 1 https://github.com/raysan5/raylib.git
           cd raylib/src
           make PLATFORM=PLATFORM_ANDROID \
                ANDROID_NDK=$ANDROID_NDK \
                ANDROID_ARCH=arm64 \
-               ANDROID_API=24 \
-               CC=$CC AR=$AR \
+               ANDROID_API=$API \
+               CC=$TOOLCHAIN/bin/aarch64-linux-android$API-clang \
+               AR=$TOOLCHAIN/bin/llvm-ar \
                -j$(nproc)
           cd ../..
 
           # 2. Создание CMakeLists.txt
           echo 'cmake_minimum_required(VERSION 3.10)
           project(CubicGame CXX)
+          set(CMAKE_CXX_STANDARD 11)
           add_library(native-lib SHARED main.cpp)
           target_include_directories(native-lib PRIVATE raylib/src)
           target_link_libraries(native-lib 
@@ -44,20 +45,21 @@ jobs:
           echo '<?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.cubic.game">
           <application android:hasCode="false" android:label="CubicGame">
-          <activity android:name="android.app.NativeActivity" android:screenOrientation="landscape">
+          <activity android:name="android.app.NativeActivity" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
           <meta-data android:name="android.app.lib_name" android:value="native-lib" />
           <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
           </activity></application></manifest>' > AndroidManifest.xml
 
-          # 4. Сборка игры
+          # 4. Сборка игры (API 28)
           mkdir build && cd build
           cmake .. \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=arm64-v8a \
-            -DANDROID_PLATFORM=android-24
+            -DANDROID_PLATFORM=android-$API \
+            -DANDROID_NDK=$ANDROID_NDK
           make -j$(nproc)
 
-      - name: Upload
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CubicBattle_Core
