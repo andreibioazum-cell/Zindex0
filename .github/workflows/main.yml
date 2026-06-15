@@ -11,46 +11,43 @@ jobs:
         with:
           ndk-version: r25c
 
-      - name: Build_Game
+      - name: Build
         run: |
           export ANDROID_NDK=$ANDROID_NDK_HOME
           export API=28
-          export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
           
-          # 1. Сборка Raylib (Минималистичная)
+          # 1. Скачиваем Raylib (только исходники)
           git clone --depth 1 https://github.com/raysan5/raylib.git
-          cd raylib/src
-          make PLATFORM=PLATFORM_ANDROID \
-               ANDROID_NDK=$ANDROID_NDK \
-               ANDROID_ARCH=arm64 \
-               ANDROID_API=$API \
-               RAYLIB_LIBTYPE=STATIC -j$(nproc)
-          cd ../..
-
-          # 2. Создание CMakeLists.txt (БЕЗ WRAP ФЛАГОВ)
+          
+          # 2. Создаем "Ультимативный" CMakeLists.txt
+          # Мы компилируем Raylib прямо внутри нашего проекта
           cat << 'EOF' > CMakeLists.txt
           cmake_minimum_required(VERSION 3.10)
           project(CubicGame CXX)
-          
-          set(ANDROID_NDK $ENV{ANDROID_NDK_HOME})
+          set(CMAKE_CXX_STANDARD 11)
+
+          set(RAY_SRC ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src)
           set(GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
-          
-          add_definitions(-DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2)
-          
+
+          add_definitions(-DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -DSUPPORT_RESOURCES_RAW)
+
+          # Собираем всё вместе: Raylib + Glue + Твой код
           add_library(native-lib SHARED 
               main.cpp 
+              ${RAY_SRC}/rcore.c 
+              ${RAY_SRC}/rshapes.c 
+              ${RAY_SRC}/rtextures.c 
+              ${RAY_SRC}/rtext.c 
+              ${RAY_SRC}/rmodels.c 
+              ${RAY_SRC}/utils.c
+              ${RAY_SRC}/raudio.c
               ${GLUE_DIR}/android_native_app_glue.c)
-          
-          target_include_directories(native-lib PRIVATE 
-              raylib/src 
-              ${GLUE_DIR})
-          
-          target_link_libraries(native-lib 
-              ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src/libraylib.a 
-              android log EGL GLESv2 m)
+
+          target_include_directories(native-lib PRIVATE ${RAY_SRC} ${RAY_SRC}/external ${GLUE_DIR})
+          target_link_libraries(native-lib android log EGL GLESv2 m)
           EOF
 
-          # 3. Создание Манифеста
+          # 3. Создаем Манифест
           cat << 'EOF' > AndroidManifest.xml
           <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.cubic.game">
           <application android:hasCode="false" android:label="CubicGame">
@@ -65,10 +62,11 @@ jobs:
           cmake .. \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=arm64-v8a \
-            -DANDROID_PLATFORM=android-28
+            -DANDROID_PLATFORM=android-$API \
+            -DANDROID_NDK=$ANDROID_NDK
           make -j$(nproc)
 
-      - name: Upload
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CubicBattle_Core
