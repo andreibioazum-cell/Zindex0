@@ -1,60 +1,85 @@
-Skip to content
-Zindex0
-Repository navigation
-Code
-Issues
-Actions
-Build_Android_APK
-Update main.yml #7
-build
-failed in 1 minute in 1m 5s
-1s
-1s
-23s
-39s
-Run export ANDROID_NDK=$ANDROID_NDK_HOME
-Cloning into 'raylib'...
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c rcore.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c rshapes.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c rtextures.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c rtext.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-In file included from In file included from <built-in>:399:
-<command line><built-in>:399:
-<command line>:6:9::6 :warning: 9:'__ANDROID_API__' macro redefined [-Wmacro-redefined] 
-warning: '__ANDROID_API__' macro redefined [-Wmacro-redefined]
-In file included from In file included from <built-in><built-in>::399399:
-:
-<command line><command line>::66::99::  warning: warning: '__ANDROID_API__' macro redefined [-Wmacro-redefined]'__ANDROID_API__' macro redefined [-Wmacro-redefined]
-    6 |     6# | d#edfeifnien e_ __A_NADNRDORIODI_DA_PAIP_I__ _2 92
-9      
-|               ^| 
-        ^
-        66 |  | ##ddeeffiinnee  ____AANNDDRROOIIDD__AAPPII____  2299
-            | |         ^        ^
-<built-in><built-in>:393:9:: 393:note: 9:previous definition is here 
-note: previous definition is here
-    393<built-in>393 |  | :##393dd:ee9f:fi innote: neprevious definition is heree 
- ____A<built-in>ANND:DR393RO:OI9ID:D_ _Anote:   PAprevious definition is here393IP
- | _I#__d _e_ f__iA_nNAeDN RD_OR_  IOA393DIN | _DD#M_RdMIOeINIfN_Di_S_nSDAeDKP K_I__V__VE_AER NRS_DSI_RIOAOONNIN_DD__R__
-OA
-      IP      | DI|         ^__        ^
-M_
-I N___SADNKD_RVOEIRDS_IMOINN___S
-D      K| _        ^V
-ERSION__
-      |         ^
-1 warning generated.
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c rmodels.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-In file included from <built-in>:399:
-<command line>:6:9: warning: '__ANDROID_API__' macro redefined [-Wmacro-redefined]
-    6 | #define __ANDROID_API__ 29
-      |         ^
-<built-in>:393:9: note: previous definition is here
-  393 | #define __ANDROID_API__ __ANDROID_MIN_SDK_VERSION__
-      |         ^
-1 warning generated.
-/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang -c raudio.c -Wall -D_GNU_SOURCE -DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2 -Wno-missing-braces -Werror=pointer-arith -fno-strict-aliasing -std=c99 -fPIC -O2 -mfix-cortex-a53-835769 -ffunction-sections -funwind-tables -fstack-protector-strong -fPIE -fPIC -Wa,--noexecstack -Wformat -no-canonical-prefixes -D__ANDROID__ -DPLATFORM_ANDROID -D__ANDROID_API__=29  -I.  -I/usr/local/lib/android/sdk/ndk/27.3.13750724/sources/android/native_app_glue -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -I/usr/local/lib/android/sdk/ndk/27.3.13750724/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
-In file included from <built-in>:399:
-0s
-0s
-0s
+name: Build_Android_APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r25c
+
+      - name: Build_Raylib_And_Game
+        run: |
+          export ANDROID_NDK=$ANDROID_NDK_HOME
+          export API=28
+          export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
+          
+          # 1. Сборка Raylib
+          git clone --depth 1 https://github.com/raysan5/raylib.git
+          cd raylib/src
+          make PLATFORM=PLATFORM_ANDROID \
+               ANDROID_NDK=$ANDROID_NDK \
+               ANDROID_ARCH=arm64 \
+               ANDROID_API=$API \
+               CC=$TOOLCHAIN/bin/aarch64-linux-android$API-clang \
+               AR=$TOOLCHAIN/bin/llvm-ar \
+               RAYLIB_LIBTYPE=STATIC -j$(nproc)
+          cd ../..
+
+          # 2. Создание CMakeLists.txt (Безопасный метод)
+          cat << 'EOF' > CMakeLists.txt
+          cmake_minimum_required(VERSION 3.10)
+          project(CubicGame CXX)
+          set(CMAKE_CXX_STANDARD 11)
+          
+          set(ANDROID_NDK $ENV{ANDROID_NDK_HOME})
+          set(GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
+          
+          add_library(native-lib SHARED 
+              main.cpp 
+              ${GLUE_DIR}/android_native_app_glue.c)
+          
+          target_include_directories(native-lib PRIVATE 
+              raylib/src 
+              ${GLUE_DIR})
+          
+          # Фикс ошибки __real_fopen
+          target_link_options(native-lib PRIVATE 
+              "-Wl,--wrap=fopen" 
+              "-Wl,--wrap=fclose" 
+              "-Wl,--wrap=fseek" 
+              "-Wl,--wrap=ftell" 
+              "-Wl,--wrap=fread")
+
+          target_link_libraries(native-lib 
+              ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src/libraylib.a 
+              android log EGL GLESv2 m)
+          EOF
+
+          # 3. Создание Манифеста
+          cat << 'EOF' > AndroidManifest.xml
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.cubic.game">
+          <application android:hasCode="false" android:label="CubicGame">
+          <activity android:name="android.app.NativeActivity" android:screenOrientation="landscape" android:configChanges="orientation|keyboardHidden">
+          <meta-data android:name="android.app.lib_name" android:value="native-lib" />
+          <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+          </activity></application></manifest>
+          EOF
+
+          # 4. Сборка
+          mkdir build && cd build
+          cmake .. \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-28 \
+            -DANDROID_NDK=$ANDROID_NDK
+          make -j$(nproc)
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: CubicBattle_Core
+          path: build/libnative-lib.so
