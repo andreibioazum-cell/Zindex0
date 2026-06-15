@@ -1,19 +1,19 @@
 #include "raylib.h"
 #include <vector>
 
-struct Block { Vector3 pos; Color color; };
+struct Voxel { Vector3 pos; Color col; };
 
-class VoxelEngine {
+class Core {
 public:
-    std::vector<Block> blocks;
-    void Generate() {
-        for(int x = -10; x < 10; x++) {
-            for(int z = -10; z < 10; z++) {
-                blocks.push_back({(Vector3){(float)x, 0, (float)z}, LIME});
+    std::vector<Voxel> map;
+    void Init() {
+        for(int x = -WORLD_SIZE; x < WORLD_SIZE; x++) {
+            for(int z = -WORLD_SIZE; z < WORLD_SIZE; z++) {
+                map.push_back({{(float)x, 0, (float)z}, LIME});
             }
         }
     }
-    void Draw() {
-        for(auto& b : blocks) DrawCube(b.pos, 1, 1, 1, b.color);
+    void Render() {
+        for(auto& v : map) DrawCube(v.pos, 1, 1, 1, v.col);
     }
 };
