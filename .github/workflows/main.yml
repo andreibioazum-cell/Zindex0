@@ -11,32 +11,31 @@ jobs:
         with:
           ndk-version: r25c
 
-      - name: Build_Raylib_And_Game
+      - name: Build_Game
         run: |
           export ANDROID_NDK=$ANDROID_NDK_HOME
           export API=28
           export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
           
-          # 1. Сборка Raylib
+          # 1. Сборка Raylib (Минималистичная)
           git clone --depth 1 https://github.com/raysan5/raylib.git
           cd raylib/src
           make PLATFORM=PLATFORM_ANDROID \
                ANDROID_NDK=$ANDROID_NDK \
                ANDROID_ARCH=arm64 \
                ANDROID_API=$API \
-               CC=$TOOLCHAIN/bin/aarch64-linux-android$API-clang \
-               AR=$TOOLCHAIN/bin/llvm-ar \
                RAYLIB_LIBTYPE=STATIC -j$(nproc)
           cd ../..
 
-          # 2. Создание CMakeLists.txt (Безопасный метод)
+          # 2. Создание CMakeLists.txt (БЕЗ WRAP ФЛАГОВ)
           cat << 'EOF' > CMakeLists.txt
           cmake_minimum_required(VERSION 3.10)
           project(CubicGame CXX)
-          set(CMAKE_CXX_STANDARD 11)
           
           set(ANDROID_NDK $ENV{ANDROID_NDK_HOME})
           set(GLUE_DIR ${ANDROID_NDK}/sources/android/native_app_glue)
+          
+          add_definitions(-DPLATFORM_ANDROID -DGRAPHICS_API_OPENGL_ES2)
           
           add_library(native-lib SHARED 
               main.cpp 
@@ -46,14 +45,6 @@ jobs:
               raylib/src 
               ${GLUE_DIR})
           
-          # Фикс ошибки __real_fopen
-          target_link_options(native-lib PRIVATE 
-              "-Wl,--wrap=fopen" 
-              "-Wl,--wrap=fclose" 
-              "-Wl,--wrap=fseek" 
-              "-Wl,--wrap=ftell" 
-              "-Wl,--wrap=fread")
-
           target_link_libraries(native-lib 
               ${CMAKE_CURRENT_SOURCE_DIR}/raylib/src/libraylib.a 
               android log EGL GLESv2 m)
@@ -74,8 +65,7 @@ jobs:
           cmake .. \
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=arm64-v8a \
-            -DANDROID_PLATFORM=android-28 \
-            -DANDROID_NDK=$ANDROID_NDK
+            -DANDROID_PLATFORM=android-28
           make -j$(nproc)
 
       - name: Upload
