@@ -1,5 +1,5 @@
 #pragma once
-#define GAME_TITLE "Cubic Battle"
-#define VOTE_MODE 1 // 1: Обычный, 2: Низкая гравитация
-#define VIEW_DISTANCE 16
-#define TICK_RATE 60
+#define TITLE "Cubic Battle"
+#define VOTE_ID 1
+#define WORLD_SIZE 20
+#define VIEW_DIST 15
